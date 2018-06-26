@@ -1,9 +1,9 @@
 package com.lt;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
@@ -19,12 +19,13 @@ public class TestFileChannel {
 	public static void main(String[] args) {
 		String filename = System.getProperty("user.dir") + File.separator + "test.txt";
 		try {
-			FileInputStream fileInputStream = new FileInputStream(filename);
+			RandomAccessFile fileInputStream = new RandomAccessFile(filename,"rw");
 			FileChannel fileChannel = fileInputStream.getChannel();
 			ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
 			for (int i = 0; i < str.length(); i++) {
 				byteBuffer.putChar(str.charAt(i));
 			}
+			byteBuffer.flip();
 			fileChannel.write(byteBuffer);
 			fileChannel.close();
 			fileInputStream.close();
